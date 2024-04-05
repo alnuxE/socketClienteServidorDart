@@ -11,8 +11,8 @@ class Cliente {
       return;
     }
 
-    cliente.listen((servidor) {
-      servidorResponse(servidor as Socket);
+    cliente.listen((Uint8List data) {
+      servidorResponse(data);
     });
 
     while (true) {
@@ -22,17 +22,9 @@ class Cliente {
   }
 }
 
-void servidorResponse(Socket servidor) async {
-  servidor.listen((Uint8List data) async {
-    final mensaje = String.fromCharCodes(data);
-    print(mensaje);
-  }, onError: (e) {
-    print(e);
-    servidor.close();
-  }, onDone: () {
-    print('cliente desconectado');
-    servidor.close();
-  });
+void servidorResponse(Uint8List data) {
+  final mensaje = String.fromCharCodes(data);
+  print(mensaje);
 }
 
 Future<void> sendMessage(Socket socket, String? message, String user) async {
